@@ -2,42 +2,45 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 from fuzzy_expert.variable import FuzzyVariable
 
 variables = {
-    "Penghasilan Orang Tua" : FuzzyVariable(
-        universe_range=(150, 200),
+    "Pelayanan": FuzzyVariable(
+        universe_range=(0, 100),
         terms={
-            "High": [(175, 0), (180, 0.2), (185, 0.7), (190, 1)],
-            "Low": [(155, 1), (160, 0.8), (165, 0.5), (170, 0.2), (175, 0)],
+            "Buruk": ('trapmf', 0, 0, 15, 40),
+            "Biasa": ('trimf', 25, 50, 75),
+            "Bagus": ('trapmf', 60, 85, 100, 100),
         },
     ),
-    "ratio": FuzzyVariable(
-        universe_range=(0.1, 1),
+    "Kerapian": FuzzyVariable(
+        universe_range=(0, 100),
         terms={
-            "Goodr": [(0.3, 1), (0.4, 0.7), (0.41, 0.3), (0.42, 0)],
-            "Badr": [(0.44, 0), (0.45, 0.3), (0.5, 0.7), (0.7, 1)],
-        },
-    ),
-    #
-    "credit": FuzzyVariable(
-        universe_range=(0, 10),
-        terms={
-            "Goodc": [(2, 1), (3, 0.7), (4, 0.3), (5, 0)],
-            "Badc": [(5, 0), (6, 0.3), (7, 0.7), (8, 1)],
+            "Kurang": ('trapmf', 0, 0, 40, 60),
+            "Cukup": ('trimf', 40, 60, 80),
+            "Baik": ('trapmf', 60, 80, 100, 100),
         },
     ),
     #
-    "decision": FuzzyVariable(
-        universe_range=(0, 10),
+    "Terlambat": FuzzyVariable(
+        universe_range=(0, 30),
         terms={
-            "Approve": [(5, 0), (6, 0.3), (7, 0.7), (8, 1)],
-            "Reject": [(2, 1), (3, 0.7), (4, 0.3), (5, 0)],
+            "Jarang": ('trapmf', 0, 0, 2.5, 7.5),
+            "Kadang": ('trimf', 2.5, 10, 17.5),
+            "Sering": ('trapmf', 12.5, 17.5, 30, 30),
+        },
+    ),
+    #
+    "Produk Terjual": FuzzyVariable(
+        universe_range=(0, 900),
+        terms={
+            "Sedikit": ('trapmf', 0, 0, 300, 500),
+            "Sedang": ('trimf', 350, 500, 650),
+            "Sering": ('trapmf', 500, 700, 900, 900),
         },
     ),
 }
 
 plt.figure(figsize=(10, 2.5))
-variables["Penghasilan Orang Tua"].plot()
+variables["Produk Terjual"].plot()
 plt.show()
