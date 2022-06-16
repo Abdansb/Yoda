@@ -1,9 +1,10 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 from fuzzy_expert.variable import FuzzyVariable
+from fuzzy_expert.rule import FuzzyRule
 
+#Input Himpunan Fuzzy
 variables = {
     "Pelayanan": FuzzyVariable(
         universe_range=(0, 100),
@@ -36,11 +37,59 @@ variables = {
         terms={
             "Sedikit": ('trapmf', 0, 0, 300, 500),
             "Sedang": ('trimf', 350, 500, 650),
-            "Sering": ('trapmf', 500, 700, 900, 900),
+            "Banyak": ('trapmf', 500, 700, 900, 900),
         },
     ),
+    #
+    "Insentif": FuzzyVariable(
+        universe_range=(0, 1000),
+        terms={
+            "Rendah": ('trapmf', 0, 0, 100, 500),
+            "Menengah": ('trimf', 100, 500, 900),
+            "Tinggi": ('trapmf', 500, 900, 1000, 1000),
+        }
+    ),
 }
-
+#Tampilkan Grafik/Plot
 plt.figure(figsize=(10, 2.5))
-variables["Produk Terjual"].plot()
+variables["Insentif"].plot()
 plt.show()
+
+
+#Rules/Inferensi Fuzzy
+rules = [
+    #1
+    FuzzyRule(
+        premise=[
+            ("Pelayanan", "Buruk"), 
+            ("AND", "Kerapian", "Kurang"),
+            ("AND", "Terlambat", "Sering"),
+            ("AND", "Produk Terjual", "Sedikit"),
+        ],
+        consequence=[("Insentif", "Rendah")],
+    ),
+    #2
+    FuzzyRule(
+        premise=[
+            ("Pelayanan", "Biasa"),
+            ("AND", "Kerapian", "Cukup"),
+            ("AND", "Terlambat", "Kadang"),
+            ("AND", "Produk Terjual", "Sedang"),
+        ],
+        consequence=[("Insentif", "Menengah")],
+    ),
+    #3
+     FuzzyRule(
+        premise=[
+            ("Pelayanan", "Bagus"),
+            ("AND", "Kerapian", "Baik"),
+            ("AND", "Terlambat", "Jarang"),
+            ("AND", "Produk Terjual", "Banyak"),
+        ],
+        consequence=[("Insentif", "Tinggi")],
+     ),
+]
+
+print(rules[0])
+print()
+print(rules[1])
