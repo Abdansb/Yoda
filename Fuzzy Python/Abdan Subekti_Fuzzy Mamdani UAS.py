@@ -1,8 +1,8 @@
-
 import matplotlib.pyplot as plt
 import numpy as np
 from fuzzy_expert.variable import FuzzyVariable
 from fuzzy_expert.rule import FuzzyRule
+from fuzzy_expert.inference import DecompositionalInference
 
 #Input Himpunan Fuzzy
 variables = {
@@ -32,7 +32,7 @@ variables = {
         },
     ),
     #
-    "Produk Terjual": FuzzyVariable(
+    "Produk_Terjual": FuzzyVariable(
         universe_range=(0, 900),
         terms={
             "Sedikit": ('trapmf', 0, 0, 300, 500),
@@ -47,11 +47,58 @@ variables = {
             "Rendah": ('trapmf', 0, 0, 100, 500),
             "Menengah": ('trimf', 100, 500, 900),
             "Tinggi": ('trapmf', 500, 900, 1000, 1000),
-        }
+        },
     ),
 }
-#Tampilkan Grafik/Plot
-plt.figure(figsize=(6, 2.5))
+
+
+#Rules/Inferensi Fuzzy
+rules = [
+    #1
+    FuzzyRule(
+        premise=[
+            ("Pelayanan", "Buruk"), ("AND", "Kerapian", "Kurang"), ("AND", "Terlambat", "Sering"), ("AND", "Produk_Terjual", "Sedikit"),
+        ], consequence=[("Insentif", "Rendah")],
+    ),
+    #2
+    FuzzyRule(
+        premise=[
+            ("Pelayanan", "Biasa"), ("AND", "Kerapian", "Cukup"), ("AND", "Terlambat", "Kadang"), ("AND", "Produk_Terjual", "Sedang"),
+        ], consequence=[("Insentif", "Menengah")],
+    ),
+    #3
+    FuzzyRule(
+        premise=[
+            ("Pelayanan", "Bagus"), ("AND", "Kerapian", "Baik"), ("AND", "Terlambat", "Jarang"), ("AND", "Produk_Terjual", "Banyak"),
+        ], consequence=[("Insentif", "Tinggi")],
+     ),
+]
+
+
+#Defuzzyfikasi & Variabelnya
+model = DecompositionalInference(
+    and_operator="min",
+    or_operator="max",
+    implication_operator="Rc",
+    composition_operator="max-min",
+    production_link="max",
+    defuzzification_operator="cog",
+)
+
+#Input data dan visualisasi Fuzzy
+plt.figure(figsize=(10, 6))
+model.plot(
+    variables=variables,
+    rules=rules,
+    Pelayanan=70,
+    Kerapian=80,
+    Terlambat=10,
+    Produk_Terjual=800,
+)
+plt.show()
+
+
+"""plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title('Pelayanan')
 variables["Pelayanan"].plot()
@@ -69,256 +116,11 @@ variables["Terlambat"].plot()
 
 plt.figure(figsize=(6, 2.5))
 plt.grid(True)
-plt.title('Produk Terjual')
+plt.title('Produk_Terjual')
 plt.xlabel('Jumlah Barang')
-variables["Produk Terjual"].plot()
+variables["Produk_Terjual"].plot()
 
 plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 variables["Insentif"].plot()
-plt.show()
-
-
-#Rules/Inferensi Fuzzy
-rules = [
-    #1
-    FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"), 
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Rendah")],
-    ),
-    #2
-    FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-    ),
-    #3
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Bagus"),
-            ("AND", "Kerapian", "Baik"),
-            ("AND", "Terlambat", "Jarang"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #4
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #5
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #6
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #7
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #8
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #9
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #10
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Rendah")],
-     ),
-    #11
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Rendah")],
-     ),
-    #12
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedikit"),
-        ],
-        consequence=[("Insentif", "Rendah")],
-     ),
-    #13
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Buruk"),
-            ("AND", "Kerapian", "Kurang"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Rendah")],
-     ),
-    #14
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Bagus"),
-            ("AND", "Kerapian", "Baik"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #15
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #16
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Bagus"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #17
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Baik"),
-            ("AND", "Terlambat", "Jarang"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #18
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Baik"),
-            ("AND", "Terlambat", "Jarang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #19
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Bagus"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Tinggi")],
-     ),
-    #20
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Bagus"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #21
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Baik"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #22
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Jarang"),
-            ("AND", "Produk Terjual", "Sedang"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-    #23
-     FuzzyRule(
-        premise=[
-            ("Pelayanan", "Biasa"),
-            ("AND", "Kerapian", "Cukup"),
-            ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Banyak"),
-        ],
-        consequence=[("Insentif", "Menengah")],
-     ),
-
-
-
-
-
-]
-
-
-"""print(rules[0])
-print()
-print(rules[1])"""
+plt.show()"""
