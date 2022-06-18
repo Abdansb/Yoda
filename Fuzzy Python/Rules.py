@@ -1,5 +1,5 @@
 #Rules/Inferensi Fuzzy
-rules = [
+"""rules = [
     #1
     FuzzyRule(
         premise=[
@@ -230,4 +230,4 @@ rules = [
         ],
         consequence=[("Insentif", "Menengah")],
      ),
-]
+]"""
