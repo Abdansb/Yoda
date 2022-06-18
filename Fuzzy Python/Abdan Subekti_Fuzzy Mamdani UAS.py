@@ -1,16 +1,21 @@
+# Fuzzy Inference System Mamdani
+# Oleh Abdan Subekti  2010501038
+
 import matplotlib.pyplot as plt
 import numpy as np
 from fuzzy_expert.variable import FuzzyVariable
 from fuzzy_expert.rule import FuzzyRule
 from fuzzy_expert.inference import DecompositionalInference
 
+
 #Input Himpunan Fuzzy
 variables = {
+    #INPUT
     "Pelayanan": FuzzyVariable(
-        universe_range=(0, 100),
+        universe_range=(0, 100),                    #Sumbu x
         terms={
-            "Buruk": ('trapmf', 0, 0, 15, 40),
-            "Biasa": ('trimf', 25, 50, 75),
+            "Buruk": ('trapmf', 0, 0, 15, 40),      #trapmf = Kurva Trapesium
+            "Biasa": ('trimf', 25, 50, 75),         #trimf  = Kurva Segitiga
             "Bagus": ('trapmf', 60, 85, 100, 100),
         },
     ),
@@ -22,7 +27,6 @@ variables = {
             "Baik": ('trapmf', 60, 80, 100, 100),
         },
     ),
-    #
     "Terlambat": FuzzyVariable(
         universe_range=(0, 30),
         terms={
@@ -31,7 +35,6 @@ variables = {
             "Sering": ('trapmf', 12.5, 17.5, 30, 30),
         },
     ),
-    #
     "Produk_Terjual": FuzzyVariable(
         universe_range=(0, 900),
         terms={
@@ -40,7 +43,7 @@ variables = {
             "Banyak": ('trapmf', 500, 700, 900, 900),
         },
     ),
-    #
+    #OUTPUT
     "Insentif": FuzzyVariable(
         universe_range=(0, 1000),
         terms={
@@ -51,29 +54,39 @@ variables = {
     ),
 }
 
-
 #Rules/Inferensi Fuzzy
 rules = [
     #1
     FuzzyRule(
         premise=[
-            ("Pelayanan", "Buruk"), ("AND", "Kerapian", "Kurang"), ("AND", "Terlambat", "Sering"), ("AND", "Produk_Terjual", "Sedikit"),
-        ], consequence=[("Insentif", "Rendah")],
+            ("Pelayanan", "Buruk"), 
+            ("AND", "Kerapian", "Kurang"),
+            ("AND", "Terlambat", "Sering"),
+            ("AND", "Produk Terjual", "Sedikit"),
+        ],
+        consequence=[("Insentif", "Rendah")],
     ),
     #2
     FuzzyRule(
         premise=[
-            ("Pelayanan", "Biasa"), ("AND", "Kerapian", "Cukup"), ("AND", "Terlambat", "Kadang"), ("AND", "Produk_Terjual", "Sedang"),
-        ], consequence=[("Insentif", "Menengah")],
+            ("Pelayanan", "Biasa"),
+            ("AND", "Kerapian", "Cukup"),
+            ("AND", "Terlambat", "Kadang"),
+            ("AND", "Produk Terjual", "Sedang"),
+        ],
+        consequence=[("Insentif", "Menengah")],
     ),
     #3
-    FuzzyRule(
+     FuzzyRule(
         premise=[
-            ("Pelayanan", "Bagus"), ("AND", "Kerapian", "Baik"), ("AND", "Terlambat", "Jarang"), ("AND", "Produk_Terjual", "Banyak"),
-        ], consequence=[("Insentif", "Tinggi")],
+            ("Pelayanan", "Bagus"),
+            ("AND", "Kerapian", "Baik"),
+            ("AND", "Terlambat", "Jarang"),
+            ("AND", "Produk Terjual", "Banyak"),
+        ],
+        consequence=[("Insentif", "Tinggi")],
      ),
 ]
-
 
 #Defuzzyfikasi & Variabelnya
 model = DecompositionalInference(
@@ -82,22 +95,22 @@ model = DecompositionalInference(
     implication_operator="Rc",
     composition_operator="max-min",
     production_link="max",
-    defuzzification_operator="cog",
+    defuzzification_operator="cog",     #Metode Defuzzyfikasi (cog, bisektor, mom, som, lom)
 )
 
 #Input data dan visualisasi Fuzzy
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6))             #Ukuran window (Inch)
 model.plot(
     variables=variables,
     rules=rules,
-    Pelayanan=70,
-    Kerapian=80,
-    Terlambat=10,
-    Produk_Terjual=800,
+    Pelayanan=20,                       #Input Variabel
+    Kerapian=10,
+    Terlambat=18,
+    Produk_Terjual=235,
 )
 plt.show()
 
-
+#ini untuk visualisasi input crisp fuzzy
 """plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title('Pelayanan')
@@ -116,11 +129,12 @@ variables["Terlambat"].plot()
 
 plt.figure(figsize=(6, 2.5))
 plt.grid(True)
-plt.title('Produk_Terjual')
+plt.title('Produk Terjual (Unit)')
 plt.xlabel('Jumlah Barang')
 variables["Produk_Terjual"].plot()
 
 plt.figure(figsize=(6, 2.5))
 plt.grid(True)
+plt.title('Insentif (Rupiah)')
 variables["Insentif"].plot()
 plt.show()"""
