@@ -99,7 +99,7 @@ model = DecompositionalInference(
 )
 
 #Input data dan visualisasi Fuzzy
-plt.figure(figsize=(10, 6))             #Ukuran window (Inch)
+"""plt.figure(figsize=(10, 6))             #Ukuran window (Inch)
 model.plot(
     variables=variables,
     rules=rules,
@@ -108,10 +108,9 @@ model.plot(
     Terlambat=18,
     Produk_Terjual=235,
 )
-plt.show()
-
+plt.show()"""
 #ini untuk visualisasi input crisp fuzzy
-"""plt.figure(figsize=(6, 2.5))
+plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title('Pelayanan')
 variables["Pelayanan"].plot()
@@ -137,4 +136,4 @@ plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title('Insentif (Rupiah)')
 variables["Insentif"].plot()
-plt.show()"""
+plt.show()
