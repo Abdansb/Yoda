@@ -2,10 +2,10 @@
 #include <NewPing.h>       
 
 //L298N 
-const int LeftMotorForward = 13;
+const int LeftMotorForward = 11;
 const int LeftMotorBackward = 12;
 const int RightMotorForward = 10;
-const int RightMotorBackward = 11;
+const int RightMotorBackward = 13;
 
 const int buzz = 4;
 
