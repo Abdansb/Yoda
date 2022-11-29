@@ -1,5 +1,9 @@
 #include <Servo.h>         
-#include <NewPing.h>       
+#include <NewPing.h>   
+#include <SoftwareSerial.h>
+
+// BT port
+SoftwareSerial blue(0,1);
 
 //L298N 
 const int LeftMotorForward = 11;
@@ -31,6 +35,10 @@ void setup(){
   digitalWrite(buzz, HIGH);
   delay(100);
   digitalWrite(buzz, LOW);
+
+  //Bluetooth init
+  blue.begin(38400); 
+  Serial.println("AT command mode");
   
   servo_motor.attach(9); //servo pin
 
