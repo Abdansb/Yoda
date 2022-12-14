@@ -48,7 +48,7 @@ void setup()
 
   servo_motor.attach(9); // servo pin
 
-  servo_motor.write(115);
+  servo_motor.write(117);
   delay(2000);
   distance = readPing();
   delay(100);
@@ -69,7 +69,7 @@ void loop()
   if (digitalRead(BTState) == LOW)
   {
     /////////////Autonomous MODE///////////////
-    if (distance <= 20)
+    if (distance <= 27)
     {
       moveStop();
       delay(300);
@@ -161,7 +161,7 @@ void loop()
       }
       if (data_in == 'e')
       { // Button Released
-        servo_motor.write(115);
+        servo_motor.write(117);
       }
       if (data_in == 'F')
       { // Button Pressed
@@ -170,7 +170,7 @@ void loop()
       }
       if (data_in == 'f')
       { // Button Released
-        servo_motor.write(115);
+        servo_motor.write(117);
       }
       if (data_in == 'C')
       { // Button Pressed
@@ -191,7 +191,7 @@ int lookRight()
   delay(500);
   int distance = readPing();
   delay(100);
-  servo_motor.write(115);
+  servo_motor.write(117);
   return distance;
 }
 
@@ -201,7 +201,7 @@ int lookLeft()
   delay(500);
   int distance = readPing();
   delay(100);
-  servo_motor.write(115);
+  servo_motor.write(117);
   return distance;
   delay(100);
 }
@@ -276,7 +276,7 @@ void turnRight()
   digitalWrite(LeftMotorBackward, LOW);
   digitalWrite(RightMotorForward, LOW);
 
-  delay(500);
+  delay(250);
 
   digitalWrite(LeftMotorForward, HIGH);
   digitalWrite(RightMotorForward, HIGH);
@@ -303,7 +303,7 @@ void turnLeft()
   digitalWrite(LeftMotorForward, LOW);
   digitalWrite(RightMotorBackward, LOW);
 
-  delay(500);
+  delay(250);
 
   digitalWrite(LeftMotorForward, HIGH);
   digitalWrite(RightMotorForward, HIGH);
