@@ -63,7 +63,7 @@ rules = [
             ("Pelayanan", "Buruk"),
             ("AND", "Kerapian", "Kurang"),
             ("AND", "Terlambat", "Sering"),
-            ("AND", "Produk Terjual", "Sedikit"),
+            ("AND", "Produk_Terjual", "Sedikit"),
         ],
         consequence=[("Insentif", "Rendah")],
     ),
@@ -73,7 +73,7 @@ rules = [
             ("Pelayanan", "Biasa"),
             ("AND", "Kerapian", "Cukup"),
             ("AND", "Terlambat", "Kadang"),
-            ("AND", "Produk Terjual", "Sedang"),
+            ("AND", "Produk_Terjual", "Sedang"),
         ],
         consequence=[("Insentif", "Menengah")],
     ),
@@ -83,7 +83,7 @@ rules = [
             ("Pelayanan", "Bagus"),
             ("AND", "Kerapian", "Baik"),
             ("AND", "Terlambat", "Jarang"),
-            ("AND", "Produk Terjual", "Banyak"),
+            ("AND", "Produk_Terjual", "Banyak"),
         ],
         consequence=[("Insentif", "Tinggi")],
     ),
@@ -107,12 +107,12 @@ model.plot(
     Pelayanan=20,  # Input Variabel
     Kerapian=10,
     Terlambat=18,
-    Produk_Terjual=235,
+    Produk_Terjual=230,
 )
 plt.show()
 
 # ini untuk visualisasi input crisp fuzzy
-plt.figure(figsize=(6, 2.5))
+"""plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title("Pelayanan")
 variables["Pelayanan"].plot()
@@ -138,4 +138,4 @@ plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title("Insentif (Rupiah)")
 variables["Insentif"].plot()
-plt.show()
+plt.show()"""
