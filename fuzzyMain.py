@@ -13,10 +13,10 @@ from fuzzy_expert.inference import DecompositionalInference
 variables = {
     # INPUT
     "Pelayanan": FuzzyVariable(
-        universe_range=(0, 100),  # Sumbu x
+        universe_range=(0, 100),                    # Sumbu x
         terms={
-            "Buruk": ("trapmf", 0, 0, 15, 40),  # trapmf = Kurva Trapesium
-            "Biasa": ("trimf", 25, 50, 75),  # trimf  = Kurva Segitiga
+            "Buruk": ("trapmf", 0, 0, 15, 40),      # trapmf = Kurva Trapesium
+            "Biasa": ("trimf", 25, 50, 75),         # trimf  = Kurva Segitiga
             "Bagus": ("trapmf", 60, 85, 100, 100),
         },
     ),
@@ -100,19 +100,19 @@ model = DecompositionalInference(
 )
 
 # Input data dan visualisasi Fuzzy
-plt.figure(figsize=(10, 6))  # Ukuran window (Inch)
+"""plt.figure(figsize=(10, 6))         # Ukuran window (Inch)
 model.plot(
     variables=variables,
     rules=rules,
-    Pelayanan=20,  # Input Variabel
+    Pelayanan=20,                   # Input Variabel
     Kerapian=10,
     Terlambat=18,
     Produk_Terjual=230,
 )
-plt.show()
+plt.show()"""
 
-# ini untuk visualisasi input crisp fuzzy
-"""plt.figure(figsize=(6, 2.5))
+# visualisasi input crisp fuzzy
+plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title("Pelayanan")
 variables["Pelayanan"].plot()
@@ -138,4 +138,4 @@ plt.figure(figsize=(6, 2.5))
 plt.grid(True)
 plt.title("Insentif (Rupiah)")
 variables["Insentif"].plot()
-plt.show()"""
+plt.show()
